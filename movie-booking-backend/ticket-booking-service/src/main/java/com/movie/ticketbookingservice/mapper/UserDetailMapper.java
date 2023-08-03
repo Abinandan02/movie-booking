@@ -18,4 +18,17 @@ public class UserDetailMapper {
                 .phoneNumber(userDetails.getPhoneNumber())
                 .build();
     }
+
+    public UserDetails mapTo(User user) {
+        return UserDetails.builder()
+                .address(user.getAddress())
+                .email(user.getEmail())
+                .firstName(user.getFirstName())
+                .id(user.getId())
+                .gender(user.getGender())
+                .lastName(user.getLastName())
+                .phoneNumber(user.getPhoneNumber())
+                .password(user.getPassword())
+                .build();
+    }
 }
