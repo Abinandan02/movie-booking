@@ -15,6 +15,7 @@ import com.movie.ticketbookingservice.util.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +26,7 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserRepository userRepository;
@@ -56,23 +58,35 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse authenticate(LoginRequest loginRequest) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getEmail(),
-                        loginRequest.getPassword()
-                )
-        );
-        var userDetails = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow();
-        var user = userDetailMapper.map(userDetails);
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
-        revokeAllUserTokens(user);
-        saveUserToken(userDetails, jwtToken);
+        String jwtToken = null;
+        String refreshToken = null;
+        try{
+            UserDetails userDetails = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow();
+            if(userPasswordIsAuthentication(loginRequest, userDetails)){
+                var user = userDetailMapper.map(userDetails);
+                jwtToken = jwtService.generateToken(user);
+                refreshToken = jwtService.generateRefreshToken(user);
+                revokeAllUserTokens(user);
+                saveUserToken(userDetails, jwtToken);
+            } else {
+                log.error("Incorrect Password for user {}", loginRequest.getEmail());
+            }
+
+        } catch (Exception ex) {
+            log.error("Exception occurred during authentication", ex);
+        }
+
+
+
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    private boolean userPasswordIsAuthentication(LoginRequest loginRequest, UserDetails userDetails) {
+        return !loginRequest.getPassword().isEmpty() && passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword());
     }
 
     private void revokeAllUserTokens(User user) {
