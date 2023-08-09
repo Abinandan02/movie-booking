@@ -1,6 +1,6 @@
 package com.movie.ticketbookingservice.util;
 
-import com.movie.ticketbookingservice.dto.User;
+import com.movie.ticketbookingservice.dto.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,41 +33,41 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(User user) {
-        return generateToken(new HashMap<>(), user);
+    public String generateToken(UserInfo userInfo) {
+        return generateToken(new HashMap<>(), userInfo);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            User user
+            UserInfo userInfo
     ) {
-        return buildToken(extraClaims, user, jwtExpiration);
+        return buildToken(extraClaims, userInfo, jwtExpiration);
     }
 
     public String generateRefreshToken(
-            User user
+            UserInfo userInfo
     ) {
-        return buildToken(new HashMap<>(), user, refreshExpiration);
+        return buildToken(new HashMap<>(), userInfo, refreshExpiration);
     }
 
     private String buildToken(
             Map<String, Object> extraClaims,
-            User user,
+            UserInfo userInfo,
             long expiration
     ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
-                .setSubject(user.getEmail())
+                .setSubject(userInfo.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public boolean isTokenValid(String token, User user) {
+    public boolean isTokenValid(String token, UserInfo userInfo) {
         final String userEmail = extractUserEmail(token);
-        return (userEmail.equals(user.getEmail())) && !isTokenExpired(token);
+        return (userEmail.equals(userInfo.getEmail())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {

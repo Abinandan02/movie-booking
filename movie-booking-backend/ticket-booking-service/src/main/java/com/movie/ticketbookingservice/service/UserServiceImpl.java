@@ -1,6 +1,6 @@
 package com.movie.ticketbookingservice.service;
 
-import com.movie.ticketbookingservice.dto.User;
+import com.movie.ticketbookingservice.dto.UserInfo;
 import com.movie.ticketbookingservice.exception.NoSuchElementFoundException;
 import com.movie.ticketbookingservice.mapper.UserDetailMapper;
 import com.movie.ticketbookingservice.model.UserDetails;
@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private UserDetailMapper userDetailMapper;
 
     @Override
-    public User getUserDetails(Long id) throws NoSuchElementFoundException {
+    public UserInfo getUserDetails(Long id) throws NoSuchElementFoundException {
         Optional<UserDetails> userOptional = userRepository.findById(id);
         if (userOptional.isEmpty()) {
             log.info("user not found with id {}", id);

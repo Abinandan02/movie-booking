@@ -1,34 +1,31 @@
 package com.movie.ticketbookingservice.mapper;
 
-import com.movie.ticketbookingservice.dto.User;
+import com.movie.ticketbookingservice.dto.UserInfo;
 import com.movie.ticketbookingservice.model.UserDetails;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UserDetailMapper {
 
-    public User map(UserDetails userDetails) {
-        return User.builder()
-                .address(userDetails.getAddress())
-                .email(userDetails.getEmail())
-                .firstName(userDetails.getFirstName())
-                .id(userDetails.getId())
-                .gender(userDetails.getGender())
-                .lastName(userDetails.getLastName())
-                .phoneNumber(userDetails.getPhoneNumber())
-                .build();
+    private final ModelMapper mapper;
+
+    public UserInfo map(UserDetails userDetails) {
+        return mapper.map(userDetails, UserInfo.class);
     }
 
-    public UserDetails mapTo(User user) {
+    public UserDetails mapTo(UserInfo userInfo) {
         return UserDetails.builder()
-                .address(user.getAddress())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .id(user.getId())
-                .gender(user.getGender())
-                .lastName(user.getLastName())
-                .phoneNumber(user.getPhoneNumber())
-                .password(user.getPassword())
+                .address(userInfo.getAddress())
+                .email(userInfo.getEmail())
+                .firstName(userInfo.getFirstName())
+                .id(userInfo.getId())
+                .gender(userInfo.getGender())
+                .lastName(userInfo.getLastName())
+                .phoneNumber(userInfo.getPhoneNumber())
+                .password(userInfo.getPassword())
                 .build();
     }
 }
