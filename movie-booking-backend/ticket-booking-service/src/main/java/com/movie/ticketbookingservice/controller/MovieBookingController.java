@@ -19,4 +19,9 @@ public class MovieBookingController {
     public ResponseEntity<String> addNewMovieDetails(@Valid @RequestBody Movie movie){
         return ResponseEntity.ok().body(movieBookingService.saveNewMovieDetails(movie));
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> retrieveAllMovieDetails() {
+        return ResponseEntity.ok().body(movieBookingService.findAllNonExpiredMovies());
+    }
 }

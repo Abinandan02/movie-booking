@@ -3,17 +3,23 @@ package com.movie.ticketbookingservice.mapper;
 import com.movie.ticketbookingservice.dto.UserInfo;
 import com.movie.ticketbookingservice.model.UserDetails;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class UserDetailMapper {
 
-    private final ModelMapper mapper;
 
     public UserInfo map(UserDetails userDetails) {
-        return mapper.map(userDetails, UserInfo.class);
+        return UserInfo.builder()
+                .address(userDetails.getAddress())
+                .email(userDetails.getEmail())
+                .firstName(userDetails.getFirstName())
+                .id(userDetails.getId())
+                .gender(userDetails.getGender())
+                .lastName(userDetails.getLastName())
+                .phoneNumber(userDetails.getPhoneNumber())
+                .build();
     }
 
     public UserDetails mapTo(UserInfo userInfo) {

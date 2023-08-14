@@ -37,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest registerRequest) {
-        /*var user = UserInfo.builder()
+        var user = UserInfo.builder()
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .email(registerRequest.getEmail())
@@ -52,9 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
-                .build();*/
-        // TODO fix this.
-        return null;
+                .build();
     }
 
     @Override

@@ -12,6 +12,10 @@ public class MovieDetailsMapper {
 
     private final ModelMapper mapper;
 
+    public Movie map(MovieDetails movieDetails) {
+        return mapper.map(movieDetails, Movie.class);
+    }
+
     public MovieDetails mapTo(Movie movie) {
         return mapper.map(movie, MovieDetails.class);
     }
