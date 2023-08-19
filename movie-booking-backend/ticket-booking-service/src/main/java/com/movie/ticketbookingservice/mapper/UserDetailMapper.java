@@ -1,14 +1,17 @@
 package com.movie.ticketbookingservice.mapper;
 
-import com.movie.ticketbookingservice.dto.User;
+import com.movie.ticketbookingservice.dto.UserInfo;
 import com.movie.ticketbookingservice.model.UserDetails;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UserDetailMapper {
 
-    public User map(UserDetails userDetails) {
-        return User.builder()
+
+    public UserInfo map(UserDetails userDetails) {
+        return UserInfo.builder()
                 .address(userDetails.getAddress())
                 .email(userDetails.getEmail())
                 .firstName(userDetails.getFirstName())
@@ -19,16 +22,16 @@ public class UserDetailMapper {
                 .build();
     }
 
-    public UserDetails mapTo(User user) {
+    public UserDetails mapTo(UserInfo userInfo) {
         return UserDetails.builder()
-                .address(user.getAddress())
-                .email(user.getEmail())
-                .firstName(user.getFirstName())
-                .id(user.getId())
-                .gender(user.getGender())
-                .lastName(user.getLastName())
-                .phoneNumber(user.getPhoneNumber())
-                .password(user.getPassword())
+                .address(userInfo.getAddress())
+                .email(userInfo.getEmail())
+                .firstName(userInfo.getFirstName())
+                .id(userInfo.getId())
+                .gender(userInfo.getGender())
+                .lastName(userInfo.getLastName())
+                .phoneNumber(userInfo.getPhoneNumber())
+                .password(userInfo.getPassword())
                 .build();
     }
 }

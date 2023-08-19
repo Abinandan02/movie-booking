@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.ticketbookingservice.dto.AuthenticationResponse;
 import com.movie.ticketbookingservice.dto.LoginRequest;
 import com.movie.ticketbookingservice.dto.RegisterRequest;
-import com.movie.ticketbookingservice.dto.User;
+import com.movie.ticketbookingservice.dto.UserInfo;
 import com.movie.ticketbookingservice.mapper.UserDetailMapper;
 import com.movie.ticketbookingservice.model.UserDetails;
 import com.movie.ticketbookingservice.repository.UserRepository;
@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +37,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public AuthenticationResponse register(RegisterRequest registerRequest) {
-        var user = User.builder()
+        var user = UserInfo.builder()
                 .firstName(registerRequest.getFirstName())
                 .lastName(registerRequest.getLastName())
                 .email(registerRequest.getEmail())
@@ -89,8 +88,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return !loginRequest.getPassword().isEmpty() && passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword());
     }
 
-    private void revokeAllUserTokens(User user) {
-        var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
+    private void revokeAllUserTokens(UserInfo userInfo) {
+        var validUserTokens = tokenRepository.findAllValidTokenByUser(userInfo.getId());
         if (validUserTokens.isEmpty())
             return;
         validUserTokens.forEach(token -> {
