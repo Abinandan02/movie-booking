@@ -2,8 +2,7 @@ import './App.css';
 import { useState } from "react";
 import Login  from "./components/login.component"
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Router, Switch, Route, Link } from "react-router-dom";
+
 
 function App() {
   
