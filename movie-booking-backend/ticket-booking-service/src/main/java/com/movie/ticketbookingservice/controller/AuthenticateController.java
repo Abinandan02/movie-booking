@@ -26,11 +26,12 @@ public class AuthenticateController {
     ) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
-    @PostMapping("/authenticate")
+
+    @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody LoginRequest request
-    ) {
-        return ResponseEntity.ok(authenticationService.authenticate(request));
+    ) throws Exception {
+        return ResponseEntity.ok(authenticationService.login(request));
     }
 
     @PostMapping("/refresh-token")
@@ -40,5 +41,7 @@ public class AuthenticateController {
     ) throws IOException {
         authenticationService.refreshToken(request, response);
     }
+
+
 
 }

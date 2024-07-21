@@ -56,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public AuthenticationResponse authenticate(LoginRequest loginRequest) {
+    public AuthenticationResponse login(LoginRequest loginRequest) throws Exception {
         String jwtToken = null;
         String refreshToken = null;
         try{
@@ -74,10 +74,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         } catch (Exception ex) {
             log.error("Exception occurred during authentication", ex);
+            throw new Exception("User login credentials not found");
         }
-
-
-
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
