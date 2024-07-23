@@ -1,10 +1,11 @@
-package com.movie.ticketbookingservice.service;
+package com.movie.ticketbookingservice.adapter;
 
 import com.movie.ticketbookingservice.dto.UserInfo;
 import com.movie.ticketbookingservice.exception.NoSuchElementFoundException;
 import com.movie.ticketbookingservice.mapper.UserDetailMapper;
 import com.movie.ticketbookingservice.model.UserDetails;
 import com.movie.ticketbookingservice.repository.UserRepository;
+import com.movie.ticketbookingservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,12 +1,12 @@
 package com.movie.ticketbookingservice.dto;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.sql.Date;
 
 @Data
-@NoArgsConstructor
+@Builder
 public class Movie {
 
     private Long movieId;
