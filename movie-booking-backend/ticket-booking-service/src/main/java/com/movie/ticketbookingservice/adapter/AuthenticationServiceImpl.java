@@ -1,4 +1,4 @@
-package com.movie.ticketbookingservice.service;
+package com.movie.ticketbookingservice.adapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.ticketbookingservice.dto.AuthenticationResponse;
@@ -8,6 +8,7 @@ import com.movie.ticketbookingservice.dto.UserInfo;
 import com.movie.ticketbookingservice.mapper.UserDetailMapper;
 import com.movie.ticketbookingservice.model.UserDetails;
 import com.movie.ticketbookingservice.repository.UserRepository;
+import com.movie.ticketbookingservice.service.AuthenticationService;
 import com.movie.ticketbookingservice.token.Token;
 import com.movie.ticketbookingservice.token.TokenRepository;
 import com.movie.ticketbookingservice.token.TokenType;
