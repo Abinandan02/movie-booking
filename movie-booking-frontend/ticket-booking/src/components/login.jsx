@@ -1,12 +1,16 @@
+import React from "react";
 import { useState } from "react";
 import "../App.css";
 import Animation from "./Animation";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginError, setLoginError] = useState("");
+  const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -25,8 +29,12 @@ function Login() {
       }),
     })
       .then((response) => {
-        if (!response.ok) throw new Error(response.status);
-        else return response.json();
+        if (!response.ok) {
+          setLoginError("Invalid Credentials");
+          setEmail("");
+          setPassword("");
+          throw new Error(response.status);
+        } else return response.json();
       })
       .then((data) => {
         console.log(data);
@@ -44,7 +52,8 @@ function Login() {
           localStorage.setItem("jwt-token", data.access_token);
           setEmail("");
           setPassword("");
-          alert("Success !!");
+          localStorage.setItem("authenticated", true);
+          navigate("/dashboard");
         }
       })
       .catch((err) => err);
@@ -88,6 +97,13 @@ function Login() {
             <div className="formbg-outer">
               <div className="formbg">
                 <div className="formbg-inner padding-horizontal--48">
+                  {loginError ? (
+                    <span style={{ color: "red", fontSize: "12px" }}>
+                      {loginError}
+                    </span>
+                  ) : (
+                    ""
+                  )}
                   <span className="padding-bottom--15">
                     Sign in to your account
                   </span>
