@@ -87,7 +87,7 @@ function Login() {
                   href="https://github.com/Abinandan02/movie-booking"
                   rel="dofollow"
                 >
-                  SilverScreen
+                  Silver Screen
                 </a>
                 <h2 className="text-3xl underline text-blue-100">
                   Login to start booking!
@@ -154,8 +154,7 @@ function Login() {
                     </div>
                     <div className="field field-checkbox padding-bottom--24 flex-flex align-center">
                       <label htmlFor="checkbox">
-                        <input type="checkbox" name="checkbox" /> Stay signed in
-                        for a week
+                        <input type="checkbox" name="checkbox" /> Remember Me
                       </label>
                     </div>
                     <div className="field padding-bottom--24">
@@ -171,7 +170,7 @@ function Login() {
               </div>
               <div className="footer-link padding-top--24">
                 <span>
-                  Don't have an account? <a href="/">Sign up</a>
+                  Don't have an account? <a href="/register">Sign up</a>
                 </span>
                 <div className="listing padding-top--24 padding-bottom--24 flex-flex center-center">
                   <span>

@@ -1,5 +1,6 @@
 package com.movie.ticketbookingservice.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -9,6 +10,7 @@ import java.util.Collection;
 
 @Builder
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserInfo implements UserDetails {
 
     private Long id;

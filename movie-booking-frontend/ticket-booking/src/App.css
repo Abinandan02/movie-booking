@@ -57,10 +57,10 @@ h2 {
   letter-spacing: -1px;
   font-size: x-large;
   size: 2pc;
-  color: #283ca1;
+  color: #86acdb;
 }
 a {
-  color: #5469d4;
+  color: #072c83;
   text-decoration: unset;
 }
 .login-root {
@@ -86,8 +86,8 @@ a {
   /* Center and scale the image nicely */
   background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
-  background-image: url("images/bckg.png");
+  background-size: auto;
+  background-image: url("../public/popcorn2.jpg");
 }
 .flex-flex {
   display: flex;

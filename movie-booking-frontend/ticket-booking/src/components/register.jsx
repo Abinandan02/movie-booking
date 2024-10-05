@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ValidateEmail } from "../../src/utils";
 import "./register.css";
+import { useNavigate } from "react-router-dom";
 
 const PasswordErrorMessage = () => {
   return (
@@ -11,11 +12,13 @@ const PasswordErrorMessage = () => {
 const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState({
     value: "",
     isTouched: false,
   });
+  const navigate = useNavigate();
 
   const getIsFormValid = () => {
     return firstName && ValidateEmail(email) && password.value.length >= 8;
@@ -24,6 +27,7 @@ const Register = () => {
   const clearForm = () => {
     setFirstName("");
     setLastName("");
+    setPhoneNumber("");
     setEmail("");
     setPassword({
       value: "",
@@ -33,8 +37,37 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Account created!");
-    clearForm();
+
+    fetch("http://localhost:8080/api/v1/auth/register", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password.value, // Use the value property
+        phoneNumber: phoneNumber,
+      }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.status);
+        } else return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        localStorage.setItem("jwt-token", data.access_token);
+        localStorage.setItem("authenticated", "true");
+        clearForm();
+        alert("Account created!");
+        navigate("/dashboard");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -48,9 +81,7 @@ const Register = () => {
             </label>
             <input
               value={firstName}
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
+              onChange={(e) => setFirstName(e.target.value)}
               placeholder="First name"
             />
           </div>
@@ -58,10 +89,16 @@ const Register = () => {
             <label>Last name</label>
             <input
               value={lastName}
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
+              onChange={(e) => setLastName(e.target.value)}
               placeholder="Last name"
+            />
+          </div>
+          <div className="Field">
+            <label>Phone Number</label>
+            <input
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              placeholder="Phone number" // Updated placeholder
             />
           </div>
           <div className="Field">
@@ -70,9 +107,7 @@ const Register = () => {
             </label>
             <input
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email address"
             />
           </div>
@@ -83,12 +118,10 @@ const Register = () => {
             <input
               value={password.value}
               type="password"
-              onChange={(e) => {
-                setPassword({ ...password, value: e.target.value });
-              }}
-              onBlur={() => {
-                setPassword({ ...password, isTouched: true });
-              }}
+              onChange={(e) =>
+                setPassword({ ...password, value: e.target.value })
+              }
+              onBlur={() => setPassword({ ...password, isTouched: true })}
               placeholder="Password"
             />
             {password.isTouched && password.value.length < 8 ? (

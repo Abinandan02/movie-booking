@@ -23,5 +23,8 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUserDetails(id));
     }
 
-
+    @GetMapping("/allUser")
+    ResponseEntity<?> getAllUserDetails() throws NoSuchElementFoundException {
+        return ResponseEntity.ok().body(userService.getAllUserDetails());
+    }
 }

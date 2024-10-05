@@ -10,7 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -30,5 +33,17 @@ public class UserServiceImpl implements UserService {
             throw new NoSuchElementFoundException();
         }
         return userDetailMapper.map(userOptional.get());
+    }
+
+    @Override
+    public List<UserInfo> getAllUserDetails() throws NoSuchElementFoundException {
+        List<UserDetails> userDetails = userRepository.findAll();
+        List<UserInfo> userInfos = new ArrayList<>();
+        if (userDetails.isEmpty()) {
+            log.info("No users found");
+            throw new NoSuchElementFoundException();
+        }
+        userDetails.forEach(u -> userInfos.add(userDetailMapper.map(u)));
+        return userInfos;
     }
 }
